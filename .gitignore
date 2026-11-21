@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+
+# Environment files
+.env
+.env.*
+*.env
+!*.env.example
+**/.env
+**/.env.*
+**/*.env
+!**/.env.example
+
+# Build and cache output
+dist/
+build/
+.cache/
+.vite/
+coverage/
+
+# Local databases and runtime files
+data/
+dump/
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editors and OS files
+.DS_Store
+.idea/
+.vscode/
+.qodo/
+*.swp
+Thumbs.db
+
+# Local credentials and reset tooling
+backend/scripts/
