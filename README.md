@@ -89,7 +89,7 @@ Shortly/
 
 ## 🚀 Live Deployment
 
-- **Frontend:** [Open Shortly](ADD_YOUR_FRONTEND_URL)
+- **Frontend:** [Open Shortly](https://shortly-frontend-hop9.onrender.com)
 - **Backend:** [Backend API](https://shortly-url-shortener-cn6m.onrender.com)
 
 ## 💻 Run Locally
