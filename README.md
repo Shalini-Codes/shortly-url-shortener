@@ -1,128 +1,190 @@
-# Shortly
+# Shortly 🔗
+### URL Shortener & Analytics Dashboard
 
-Shortly is a full-stack URL shortener and analytics dashboard built with React, Vite, Tailwind CSS, Express, MongoDB, and Mongoose.
+Shortly is a full-stack web application that converts long URLs into short, shareable links and tracks link engagement through click analytics.
 
-## Tech stack
+## ✨ Features
 
-**Frontend:** React 19, Vite, Tailwind CSS, React Router, Axios, Recharts, Lucide React
+- **User Authentication** – Sign up and log in to your account.
+- **URL Shortening** – Convert long URLs into short links.
+- **Instant Redirection** – Redirect users from short links to their original URLs.
+- **Click Analytics** – Track clicks on shortened links.
+- **Dashboard** – Manage and monitor your shortened URLs.
+- **Link Management** – View and manage created links.
+- **Responsive Interface** – User-friendly interface for easy navigation.
+- **Live Deployment** – Deployed frontend and backend.
 
-**Backend:** Node.js, Express, MongoDB, Mongoose, JWT, bcryptjs, nanoid
+## 🛠️ Tech Stack
 
-## Features
+| Technology | Purpose |
+|---|---|
+| React.js | Frontend UI |
+| Vite | Frontend development and build tool |
+| Tailwind CSS | Styling |
+| Node.js | Backend runtime |
+| Express.js | Backend API |
+| MongoDB Atlas | Cloud database |
+| Mongoose | MongoDB object modeling |
+| JWT | Authentication |
+| Git & GitHub | Version control |
+| Render | Deployment |
 
-- JWT signup, login, profile editing, and password changes
-- Protected dashboard routes
-- Nanoid short-link generation and optional custom aliases
-- HTTP 302 redirects with active, expired, and disabled link handling
-- Click tracking for timestamp, referrer, browser, device, and operating system
-- MongoDB aggregation analytics, charts, link management, filtering, and sorting
-- QR codes, copy actions, toast notifications, responsive dashboard, and loading/empty states
+## ⚙️ How It Works
 
-## Project structure
+1. Create an account or log in.
+2. Enter a long URL in the dashboard.
+3. Shortly generates a shortened URL.
+4. Copy and share the generated link.
+5. When someone clicks the short URL, they are redirected to the original destination.
+6. Click activity is recorded and reflected in the analytics dashboard.
+
+## 🏗️ Architecture
 
 ```text
-frontend/
-  src/components
-  src/context
-  src/layouts
-  src/pages
-  src/services
-backend/
-  src/config
-  src/controllers
-  src/middleware
-  src/models
-  src/routes
-  src/utils
+                 ┌────────────────────┐
+                 │       User        │
+                 └─────────┬────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │ React Frontend    │
+                 │   (Vite)          │
+                 └─────────┬────────┘
+                           │ REST API
+                           ▼
+                 ┌────────────────────┐
+                 │ Node.js + Express  │
+                 │    Backend        │
+                 └─────────┬────────┘
+                           │
+                           ▼
+                 ┌────────────────────┐
+                 │   MongoDB Atlas    │
+                 │   Database         │
+                 └────────────────────┘
 ```
 
-## Local setup
+## 📂 Project Structure
 
-### 1. Database
+```text
+Shortly/
+│
+├── frontend/          # React frontend
+│   ├── src/
+│   ├── public/
+│   └── package.json
+│
+├── backend/           # Node.js & Express backend
+│   ├── src/
+│   ├── routes/
+│   ├── models/
+│   └── package.json
+│
+└── README.md
+```
 
-Create a MongoDB database locally or with MongoDB Atlas.
+*Folder structure may vary depending on the implementation.*
 
-Use `mongosh` or MongoDB Compass to verify the database connection. Database credentials and secrets must remain in `backend/.env`, never in source control.
+## 🚀 Live Deployment
 
-### 2. Backend
+- **Frontend:** [Open Shortly](ADD_YOUR_FRONTEND_URL)
+- **Backend:** [Backend API](https://shortly-url-shortener-cn6m.onrender.com)
 
-```powershell
+## 💻 Run Locally
+
+### Prerequisites
+
+- Node.js
+- npm
+- MongoDB connection string
+
+### 1. Clone the Repository
+
+```bash
+git clone YOUR_REPOSITORY_URL
+cd URL-shortener
+```
+
+### 2. Setup Backend
+
+```bash
 cd backend
-Copy-Item .env.example .env
 npm install
-npm run dev
 ```
 
-Set `MONGODB_URI`, `JWT_SECRET`, `CLIENT_URL`, and `BASE_URL` in `backend/.env`.
+Create a `.env` file in the backend folder:
 
-### 3. Frontend
+```env
+PORT=5000
+MONGODB_URI=your_mongodb_connection_string
+JWT_SECRET=your_secret_key
+```
 
-```powershell
+Start the backend server:
+
+```bash
+npm start
+```
+
+### 3. Setup Frontend
+
+Open a new terminal:
+
+```bash
 cd frontend
-Copy-Item .env.example .env
 npm install
+```
+
+Create a `.env` file in the frontend folder:
+
+```env
+VITE_API_URL=http://localhost:5000/api
+VITE_PUBLIC_BASE_URL=http://localhost:5000
+```
+
+Start the frontend:
+
+```bash
 npm run dev
 ```
 
-Open `http://localhost:5173`.
+## 🔐 Environment Variables
 
-## Environment variables
+| Variable | Description |
+|---|---|
+| `MONGODB_URI` | MongoDB database connection string |
+| `JWT_SECRET` | Secret key used for authentication |
+| `PORT` | Backend server port |
+| `VITE_API_URL` | Backend API URL used by the frontend |
+| `VITE_PUBLIC_BASE_URL` | Base URL for generated short links |
 
-### Backend
+**Never commit your `.env` file or expose your database credentials.**
 
-| Variable | Example |
-| --- | --- |
-| PORT | `5000` |
-| MONGODB_URI | `mongodb://127.0.0.1:27017/shortly` |
-| JWT_SECRET | a long random value |
-| JWT_EXPIRES_IN | `7d` |
-| CLIENT_URL | `http://localhost:5173` |
-| BASE_URL | `http://localhost:5000` |
+## 🧪 Testing
 
-### Frontend
+The deployed application was manually tested for the following functionalities:
 
-| Variable | Example |
-| --- | --- |
-| VITE_API_URL | `http://localhost:5000/api` |
-| VITE_PUBLIC_BASE_URL | `http://localhost:5000` |
+- User signup
+- User login
+- Dashboard access
+- URL shortening
+- Short URL redirection
+- Click count tracking
 
-## API endpoints
+## 🔮 Future Enhancements
 
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-- `GET /api/auth/me`
-- `PUT /api/auth/profile`
-- `PUT /api/auth/change-password`
-- `POST /api/links`
-- `GET /api/links`
-- `GET /api/links/:id`
-- `PUT /api/links/:id`
-- `DELETE /api/links/:id`
-- `PATCH /api/links/:id/status`
-- `GET /api/analytics/overview`
-- `GET /api/analytics/links/:id`
-- `GET /api/analytics/clicks`
-- `GET /api/analytics/top-links`
-- `GET /:shortCode`
+- QR code generation
+- Custom short URL aliases
+- Link expiration
+- Advanced analytics and visualizations
+- URL categorization
+- Improved dashboard insights
 
-## Deployment
+## 👩‍💻 About the Project
 
-### Backend on Render
+Shortly was developed as a full-stack web development project to explore frontend and backend integration, REST APIs, authentication, database management, URL redirection, analytics, and cloud deployment.
 
-1. Create a Web Service from this repository and set the root directory to `backend`.
-2. Build command: `npm install`
-3. Start command: `npm start`
-4. Add `MONGODB_URI`, `JWT_SECRET`, `JWT_EXPIRES_IN`, `CLIENT_URL`, and `BASE_URL`.
-5. Set `BASE_URL` to the Render service URL and `CLIENT_URL` to the Vercel URL.
+---
 
-The included `render.yaml` provides a Render blueprint configuration.
+⭐ **Shortly — Make long links short and simple.**
 
-### Frontend on Vercel
-
-1. Import the repository and set the root directory to `frontend`.
-2. Framework preset: Vite.
-3. Build command: `npm run build`
-4. Output directory: `dist`
-5. Add `VITE_API_URL=https://your-api-url/api` and `VITE_PUBLIC_BASE_URL=https://your-api-url`.
-
-The included `vercel.json` enables client-side route rewrites.
