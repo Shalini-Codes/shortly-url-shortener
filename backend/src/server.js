@@ -19,18 +19,25 @@ app.use(cors({
   origin(origin, callback) {
     if (!origin) return callback(null, true);
 
-    const allowed = (process.env.CLIENT_URL || 'http://localhost:5173')
+    const configuredOrigins = [
+      process.env.FRONTEND_URL,
+      process.env.CLIENT_URL
+    ].filter(Boolean).join(',');
+    const allowed = (configuredOrigins || 'http://localhost:5173')
       .split(',')
       .map(value => value.trim().replace(/\/$/, ''))
       .filter(Boolean);
     const normalizedOrigin = origin.replace(/\/$/, '');
     const isLocalOrigin = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(normalizedOrigin);
     const isShortlyVercelOrigin = /^https:\/\/shortly-url-shortener(?:-[a-z0-9-]+)?\.vercel\.app$/.test(normalizedOrigin);
-    const isAllowed = allowed.includes(normalizedOrigin) || isLocalOrigin || isShortlyVercelOrigin;
+    const isRenderFrontend = /^https:\/\/[a-z0-9-]+\.onrender\.com$/.test(normalizedOrigin);
+    const isAllowed = allowed.includes(normalizedOrigin) || isLocalOrigin || isShortlyVercelOrigin || isRenderFrontend;
 
     callback(null, isAllowed);
   },
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json({ limit: '1mb' }));
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
