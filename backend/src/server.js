@@ -17,8 +17,18 @@ app.set('trust proxy', 1);
 app.use(helmet({ crossOriginResourcePolicy: false }));
 app.use(cors({
   origin(origin, callback) {
-    const allowed = (process.env.CLIENT_URL || 'http://localhost:5173').split(',').map(v => v.trim());
-    callback(null, !origin || allowed.includes(origin));
+    if (!origin) return callback(null, true);
+
+    const allowed = (process.env.CLIENT_URL || 'http://localhost:5173')
+      .split(',')
+      .map(value => value.trim().replace(/\/$/, ''))
+      .filter(Boolean);
+    const normalizedOrigin = origin.replace(/\/$/, '');
+    const isLocalOrigin = /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(normalizedOrigin);
+    const isShortlyVercelOrigin = /^https:\/\/shortly-url-shortener(?:-[a-z0-9-]+)?\.vercel\.app$/.test(normalizedOrigin);
+    const isAllowed = allowed.includes(normalizedOrigin) || isLocalOrigin || isShortlyVercelOrigin;
+
+    callback(null, isAllowed);
   },
   credentials: true
 }));

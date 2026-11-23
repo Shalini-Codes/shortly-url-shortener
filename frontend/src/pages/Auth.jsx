@@ -23,7 +23,12 @@ export default function Auth({ mode }) {
       if (signup) await register(form.name,form.email,form.password); else await login(form.email,form.password);
       toast.success(signup?'Account created':'Welcome back');
       navigate(location.state?.url ? '/create' : '/dashboard', location.state?.url ? { state: { url: location.state.url } } : undefined);
-    } catch (error) { toast.error(error.response?.data?.message || 'Unable to authenticate'); }
+    } catch (error) {
+      const message = error.response?.data?.message
+        || (error.code === 'ERR_NETWORK' ? 'Unable to reach the server. Please check your connection.' : null)
+        || 'Unable to authenticate';
+      toast.error(message);
+    }
     finally { setLoading(false); }
   };
   return (
